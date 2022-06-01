@@ -47,7 +47,7 @@ endif(USE_GPU)
 target_include_directories(${PROJECT_NAME} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cppsim>
 	"$<INSTALL_INTERFACE:include/cppsim>")
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>
-	"$<INSTALL_INTERFACE:include/>")
+	"$<INSTALL_INTERFACE:include>")
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)

@@ -18,9 +18,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 file(GLOB CSIM_SRC
-    "src/*.cpp"
-    "src/*.c"
-)
+	"src/*.cpp"
+	"src/*.c"
+	)
 
 add_library(${PROJECT_NAME} ${CSIM_SRC})
 
@@ -33,9 +33,9 @@ endif(OPENMP_CXX_FOUND)
 target_link_libraries(${PROJECT_NAME} PUBLIC Eigen3::Eigen)
 
 target_include_directories(${PROJECT_NAME} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/csim>
-                            "$<INSTALL_INTERFACE:include/csim>")
+	"$<INSTALL_INTERFACE:include/csim>")
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-                            "$<INSTALL_INTERFACE:include>")
+	"$<INSTALL_INTERFACE:include>")
 install(TARGETS ${PROJECT_NAME} EXPORT cppsimTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)
 

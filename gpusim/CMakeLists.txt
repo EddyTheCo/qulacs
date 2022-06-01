@@ -20,15 +20,15 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 file(GLOB GPUSIM_SRC
-    "src/*.cu"
-)
+	"src/*.cu"
+	)
 
 add_library(${PROJECT_NAME} ${GPUSIM_SRC})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE -lcublas -lcurand)
 target_include_directories(${PROJECT_NAME} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/gpusim>
-                            "$<INSTALL_INTERFACE:/include/gpusim>")
-		    target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-                            "$<INSTALL_INTERFACE:/include>")
+	"$<INSTALL_INTERFACE:/include/gpusim>")
+target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	"$<INSTALL_INTERFACE:include>")
 install(TARGETS ${PROJECT_NAME} EXPORT cppsimTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)
