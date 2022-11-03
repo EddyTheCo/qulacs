@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 
 
-project(gpusim VERSION 0.1 DESCRIPTION "gpu libraries" LANGUAGES CUDA)
+project(gpusim_proj VERSION 0.1 DESCRIPTION "gpu libraries" LANGUAGES CUDA)
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -23,12 +23,12 @@ file(GLOB GPUSIM_SRC
 	"src/*.cu"
 	)
 
-add_library(${PROJECT_NAME} ${GPUSIM_SRC})
+add_library(gpusim ${GPUSIM_SRC})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE -lcublas -lcurand)
-target_include_directories(${PROJECT_NAME} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/gpusim>
+target_link_libraries(gpusim PRIVATE -lcublas -lcurand)
+target_include_directories(gpusim PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/gpusim>
 	"$<INSTALL_INTERFACE:/include/gpusim>")
-target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+target_include_directories(gpusim INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
-install(TARGETS ${PROJECT_NAME} EXPORT cppsimTargets DESTINATION lib)
+install(TARGETS gpusim EXPORT cppsimTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)

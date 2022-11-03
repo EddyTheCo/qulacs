@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 
-
-project(csim VERSION 0.1 DESCRIPTION "c libraries?" LANGUAGES C CXX)
+project(csim_project VERSION 0.1 DESCRIPTION "c libraries" LANGUAGES C CXX)
 
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -22,21 +21,41 @@ file(GLOB CSIM_SRC
 	"src/*.c"
 	)
 
-add_library(${PROJECT_NAME} ${CSIM_SRC})
+add_library(csim ${CSIM_SRC})
 
-find_package (Eigen3 3.3  NO_MODULE REQUIRED)
+if(NOT TARGET Eigen3::Eigen)
+	find_package(Eigen3 3.3 CONFIG QUIET)
+	if(NOT Eigen3_FOUND)
+		message(STATUS "Eigen3 was not found. Downloading")
+		FetchContent_Declare(
+			Eigen
+			GIT_TAG master
+			GIT_SHALLOW TRUE
+			GIT_PROGRESS TRUE)
+		set(EIGEN_BUILD_DOC OFF)
+		set(BUILD_TESTING OFF)
+		set(EIGEN_BUILD_PKGCONFIG OFF)
+		set( OFF)
+		FetchContent_MakeAvailable(Eigen)
+		install(TARGETS Eigen3::Eigen EXPORT cppsimTargets DESTINATION lib)
+	else()
+		message(STATUS "Eigen FOUND in ${Eigen3_DIR}")
+	endif(NOT Eigen3_FOUND)
+endif(NOT TARGET Eigen3::Eigen)
+target_link_libraries(csim PUBLIC  Eigen3::Eigen)
+
+
 if(OPENMP_CXX_FOUND)
 	message(STATUS "OpenMP support found")
-	target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
+	target_link_libraries(csim PRIVATE OpenMP::OpenMP_CXX)
 endif(OPENMP_CXX_FOUND)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Eigen3::Eigen)
 
-target_include_directories(${PROJECT_NAME} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/csim>
+target_include_directories(csim PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/csim>
 	"$<INSTALL_INTERFACE:include/csim>")
-target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+target_include_directories(csim INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	"$<INSTALL_INTERFACE:include>")
-install(TARGETS ${PROJECT_NAME} EXPORT cppsimTargets DESTINATION lib)
+install(TARGETS csim EXPORT cppsimTargets DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include/)
 
 
