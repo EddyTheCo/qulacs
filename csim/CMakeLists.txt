@@ -22,13 +22,14 @@ file(GLOB CSIM_SRC
 	)
 
 add_library(csim ${CSIM_SRC})
-
+include(FetchContent)
 if(NOT TARGET Eigen3::Eigen)
 	find_package(Eigen3 3.3 CONFIG QUIET)
 	if(NOT Eigen3_FOUND)
 		message(STATUS "Eigen3 was not found. Downloading")
 		FetchContent_Declare(
 			Eigen
+			GIT_REPOSITORY git@gitlab.com:libeigen/eigen.git
 			GIT_TAG master
 			GIT_SHALLOW TRUE
 			GIT_PROGRESS TRUE)
@@ -37,7 +38,6 @@ if(NOT TARGET Eigen3::Eigen)
 		set(EIGEN_BUILD_PKGCONFIG OFF)
 		set( OFF)
 		FetchContent_MakeAvailable(Eigen)
-		install(TARGETS Eigen3::Eigen EXPORT cppsimTargets DESTINATION lib)
 	else()
 		message(STATUS "Eigen FOUND in ${Eigen3_DIR}")
 	endif(NOT Eigen3_FOUND)
