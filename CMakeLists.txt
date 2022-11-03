@@ -18,12 +18,11 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_subdirectory(csim)
 
+add_subdirectory(csim)
 if(USE_GPU)
 	add_subdirectory(gpusim)
 endif(USE_GPU)
-
 
 add_subdirectory(cppsim)
 

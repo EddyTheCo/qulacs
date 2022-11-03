@@ -2,8 +2,6 @@
 
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
-
-
 project(gpusim_proj VERSION 0.1 DESCRIPTION "gpu libraries" LANGUAGES CUDA)
 
 set(default_build_type "Release")

@@ -1,8 +1,6 @@
 
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
-
-
 project(cppsim_project VERSION 0.1 DESCRIPTION "cpp libraries" LANGUAGES CXX)
 
 set(default_build_type "Release")
@@ -24,7 +22,6 @@ file(GLOB CPPSIM_SRC
 
 add_library(cppsim ${CPPSIM_SRC})
 
-find_package(Eigen3 3.3  NO_MODULE REQUIRED)
 include(FindOpenMP)
 if(OPENMP_CXX_FOUND)
 	message(STATUS "OpenMP support found")
@@ -35,14 +32,11 @@ if(USE_GPU)
 	target_compile_definitions(cppsim PRIVATE _USE_GPU)
 endif(USE_GPU)
 
-target_link_libraries(cppsim PUBLIC Eigen3::Eigen)
 if(USE_GPU)
 	target_link_libraries(cppsim PUBLIC csim gpusim)
 else()
 	target_link_libraries(cppsim PUBLIC csim )
 endif(USE_GPU)
-
-
 
 target_include_directories(cppsim PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cppsim>
 	"$<INSTALL_INTERFACE:include/cppsim>")
